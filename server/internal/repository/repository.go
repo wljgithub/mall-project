@@ -1,14 +1,22 @@
 package repository
 
 import (
+	"errors"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
 	"gorm.io/gorm"
 )
 
 type Repository interface {
+	UserRepo
 	Close()
 }
+
+var (
+	ErrNotFound = errors.New("record not found")
+)
+
+var RedisClient *redis.Client
 
 var _ Repository = &Repo{}
 
@@ -24,6 +32,7 @@ func New(redis *redis.Client, db *gorm.DB) (Repository, func(), error) {
 		db:    db,
 		redis: redis,
 	}
+	RedisClient = redis
 	cf := func() {
 		repository.Close()
 	}
