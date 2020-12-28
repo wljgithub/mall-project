@@ -22,6 +22,6 @@ type GetUserInfoResp struct {
 
 type UpdateUserInfoReq struct {
 	IntroduceSign string `json:"introduceSign"`
-	NickName string `json:"nickName"`
-	PasswordMd5 string `json:"passwordMd5"`
+	NickName      string `json:"nickName"`
+	PasswordMd5   string `json:"passwordMd5"`
 }

@@ -50,8 +50,3 @@ func (this *HttpServer) Shutdown(ctx context.Context) error {
 func (this *HttpServer) Init() {
 	this.server.Handler = this.Load(gin.Default())
 }
-
-
-
-
-

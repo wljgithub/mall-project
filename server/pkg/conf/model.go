@@ -16,7 +16,7 @@ type AppConfig struct {
 	Addr      string
 	Url       string
 	JwtSecret string `mapstructure:"jwt_secret"`
-	JwtExpire int `mapstructure:"jwt_expire"`
+	JwtExpire int    `mapstructure:"jwt_expire"`
 }
 
 // LogConfig

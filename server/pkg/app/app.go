@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/wljgithub/mall-project/internal/api"
 	"github.com/wljgithub/mall-project/pkg/conf"
-	"golang.org/x/sync/errgroup"
 	"github.com/wljgithub/mall-project/pkg/log"
+	"golang.org/x/sync/errgroup"
 	"time"
 )
 
@@ -33,7 +33,7 @@ func NewApp(server api.Server) (app *App, cancelFunc func(), err error) {
 func (this *App) Run() {
 	//for _, server := range this.Server {
 	this.eg.Go(func() error {
-		log.Info("server running on",conf.Conf.App.Addr)
+		log.Info("server running on", conf.Conf.App.Addr)
 		return this.Server.Run()
 	})
 	//}
