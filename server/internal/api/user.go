@@ -9,13 +9,13 @@ import (
 )
 
 func (this *HttpServer) GetUserInfo(c *gin.Context) {
-	uid :=c.GetInt("uid")
-	if uid <=0{
+	uid := c.GetInt("uid")
+	if uid <= 0 {
 		log.Info("failed to parse uid")
 		handler.SendResponse(c, errno.ErrInternalServerError, nil)
 		return
 	}
-	userInfo,err:=this.srv.GetUserInfo(uid)
+	userInfo, err := this.srv.GetUserInfo(uid)
 	if err != nil {
 		log.Infof("getUserInfo service err: %+v", err)
 		handler.SendResponse(c, err, nil)
@@ -67,7 +67,7 @@ func (this *HttpServer) UpdateUserInfo(c *gin.Context) {
 		return
 	}
 	uid := c.GetInt("uid")
-	err := this.srv.UpdateUserInfo(uid,req)
+	err := this.srv.UpdateUserInfo(uid, req)
 	if err != nil {
 		log.Infof("login service err: %+v", err)
 		handler.SendResponse(c, err, nil)
@@ -77,13 +77,13 @@ func (this *HttpServer) UpdateUserInfo(c *gin.Context) {
 }
 
 func (this *HttpServer) Logout(c *gin.Context) {
-	uid :=c.GetInt("uid")
-	if uid <=0{
+	uid := c.GetInt("uid")
+	if uid <= 0 {
 		log.Info("logout failed to parse uid")
 		handler.SendResponse(c, errno.ErrInternalServerError, nil)
 		return
 	}
-	err:=this.srv.Logout(uid)
+	err := this.srv.Logout(uid)
 	if err != nil {
 		log.Infof("logout service err: %+v", err)
 		handler.SendResponse(c, err, nil)

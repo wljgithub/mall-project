@@ -9,6 +9,7 @@ import (
 
 type Repository interface {
 	UserRepo
+	MallRepo
 	Close()
 }
 

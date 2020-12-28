@@ -16,8 +16,8 @@ func UserModelToUserInfo(user *model.User) *dto.GetUserInfoResp {
 
 func RegisterReqToUserModel(req dto.RegisterReq) model.User {
 	return model.User{
-		LoginName: req.LoginName,
+		LoginName:   req.LoginName,
 		PasswordMd5: req.Password,
-		CreateTime: time.Now(),
+		CreateTime:  time.Now(),
 	}
 }

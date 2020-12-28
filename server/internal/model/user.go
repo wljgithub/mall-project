@@ -17,6 +17,6 @@ func (User) TableName() string {
 	return "tb_newbee_mall_user"
 }
 
-func (this *User)CheckPassword(password string)bool  {
+func (this *User) CheckPassword(password string) bool {
 	return password == this.PasswordMd5
 }
