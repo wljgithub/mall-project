@@ -10,6 +10,7 @@ import (
 type Repository interface {
 	UserRepo
 	MallRepo
+	AddressRepo
 	Close()
 }
 

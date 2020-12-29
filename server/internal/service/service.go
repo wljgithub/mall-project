@@ -9,6 +9,9 @@ type Service struct {
 	Repo repository.Repository
 }
 
+
+
+
 var Provider = wire.NewSet(repository.Provider, NewService)
 
 func NewService(repo repository.Repository) (*Service, func(), error) {
