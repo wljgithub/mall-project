@@ -29,5 +29,14 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 		userWithPermission.POST("/logout", this.Logout)
 	}
 
+	addr := apiV1.Group("/address", middleware.AuthMiddleware())
+	{
+		addr.GET("/", this.GetAddrList)
+		addr.POST("/", this.CreateAddress)
+		addr.PUT("/", this.UpdateAddress)
+		addr.GET("/:addressId", this.GetAddressDetail)
+		addr.DELETE("/:addressId", this.DeleteAddress)
+		addr.GET("/:addressId/default",this.GetDefaultAddress)
+	}
 	return eg
 }
