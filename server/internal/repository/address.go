@@ -40,8 +40,8 @@ func (this *Repo) DeleteAddress(ctx context.Context, id string) error {
 	err := this.db.Model(&model.Address{}).Where("address_id = ?", id).Delete(&model.Address{}).Error
 	return xerrors.Wrapf(err, "")
 }
-func (this *Repo)  GetDefaultAddress(ctx context.Context) (model.Address, error){
-	address:=model.Address{}
-	err:=this.db.Model(&model.Address{}).Where("default_flag = ?",1).First(&address).Error
-	return address,xerrors.Wrapf(err,"")
+func (this *Repo) GetDefaultAddress(ctx context.Context) (model.Address, error) {
+	address := model.Address{}
+	err := this.db.Model(&model.Address{}).Where("default_flag = ?", 1).First(&address).Error
+	return address, xerrors.Wrapf(err, "")
 }

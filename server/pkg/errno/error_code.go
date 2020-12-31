@@ -12,4 +12,6 @@ var (
 	ErrTokenInvalid        = &ErrorNo{http.StatusUnauthorized, 40003, "token无效"}
 	ErrTokenExpire         = &ErrorNo{http.StatusUnauthorized, 40004, "token超时"}
 	ErrInternalServerError = &ErrorNo{HTTPStatusCode: http.StatusInternalServerError, ServiceCode: 50001, Message: "internal server error"}
+
+	ErrInvalidCartId = &ErrorNo{http.StatusBadRequest,410001,"购物车项无效"}
 )
