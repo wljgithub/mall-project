@@ -16,7 +16,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 	apiV1.GET("/index-infos", this.MallIndex)
 	apiV1.GET("/categories", this.GetCategories)
 
-	// user handler
+	// 用户相关接口
 	user := apiV1.Group("/user")
 	{
 		user.POST("/login", this.Login)
@@ -28,7 +28,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 		userWithPermission.PUT("/info", this.UpdateUserInfo)
 		userWithPermission.POST("/logout", this.Logout)
 	}
-
+	// 个人地址相关接口
 	addr := apiV1.Group("/address", middleware.AuthMiddleware())
 	{
 		addr.GET("/", this.GetAddrList)
@@ -36,7 +36,17 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 		addr.PUT("/", this.UpdateAddress)
 		addr.GET("/:addressId", this.GetAddressDetail)
 		addr.DELETE("/:addressId", this.DeleteAddress)
-		addr.GET("/:addressId/default",this.GetDefaultAddress)
+		addr.GET("/:addressId/default", this.GetDefaultAddress)
+	}
+
+	// 购物车相关接口
+	cart := apiV1.Group("/shop-cart", middleware.AuthMiddleware())
+	{
+		cart.GET("/", this.GetCartList)
+		cart.POST("/", this.CreateCartItem)
+		cart.DELETE("/:newBeeMallShoppingCartItemId",this.DeleteCartItem)
+		cart.PUT("/",this.UpdateCartItem)
+		cart.GET("/settle",this.BatchGetCartItem)
 	}
 	return eg
 }

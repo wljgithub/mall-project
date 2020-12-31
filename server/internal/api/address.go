@@ -78,7 +78,7 @@ func (this *HttpServer) DeleteAddress(c *gin.Context) {
 	handler.SendResponse(c, nil, nil)
 }
 func (this *HttpServer) GetDefaultAddress(c *gin.Context) {
-	address,err := this.srv.GetDefaultAddress()
+	address, err := this.srv.GetDefaultAddress()
 	if err != nil {
 		log.Infof("getDefaultAddress service err: %+v", err)
 		handler.SendResponse(c, err, nil)

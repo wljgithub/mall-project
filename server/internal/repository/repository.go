@@ -11,6 +11,7 @@ type Repository interface {
 	UserRepo
 	MallRepo
 	AddressRepo
+	CartRepo
 	Close()
 }
 

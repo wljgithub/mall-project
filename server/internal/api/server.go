@@ -51,3 +51,5 @@ func (this *HttpServer) Init() {
 	this.server.Handler = this.Load(gin.Default())
 }
 
+
+
