@@ -39,5 +39,5 @@ func (this *Service) UpdateCartItem(req dto.UpdateCartItemReq) error {
 	return this.Repo.UpdateCartItem(cart)
 }
 func (this *Service) BatchGetCartItem(ids []string) ([]dto.CartItemInfo, error) {
-	return this.Repo.BatchGetCartItem(context.Background(),ids)
+	return this.Repo.BatchGetCartItem(context.Background(), ids)
 }
