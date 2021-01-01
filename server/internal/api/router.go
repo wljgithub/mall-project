@@ -15,6 +15,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 
 	apiV1.GET("/index-infos", this.MallIndex)
 	apiV1.GET("/categories", this.GetCategories)
+	apiV1.GET("/search", this.GoodsSearch)
 
 	// 用户相关接口
 	user := apiV1.Group("/user")
@@ -44,9 +45,14 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 	{
 		cart.GET("/", this.GetCartList)
 		cart.POST("/", this.CreateCartItem)
-		cart.DELETE("/:newBeeMallShoppingCartItemId",this.DeleteCartItem)
-		cart.PUT("/",this.UpdateCartItem)
-		cart.GET("/settle",this.BatchGetCartItem)
+		cart.DELETE("/:newBeeMallShoppingCartItemId", this.DeleteCartItem)
+		cart.PUT("/", this.UpdateCartItem)
+		cart.GET("/settle", this.BatchGetCartItem)
+	}
+	// 商品相关
+	goods := apiV1.Group("/goods", middleware.AuthMiddleware())
+	{
+		goods.GET("/detail/:goodsId", this.GetGoodsDetail)
 	}
 	return eg
 }
