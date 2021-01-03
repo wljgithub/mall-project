@@ -11,7 +11,6 @@ type Cart struct {
 	CreateTime time.Time
 	UpdateTime time.Time
 }
-
 func (Cart) TableName() string {
 	return "tb_newbee_mall_shopping_cart_item"
 }

@@ -49,10 +49,30 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 		cart.PUT("/", this.UpdateCartItem)
 		cart.GET("/settle", this.BatchGetCartItem)
 	}
+
+	// 订单相关
+	order := apiV1.Group("order", middleware.AuthMiddleware())
+	{
+		order.GET("/", this.GetOrderList)
+		order.GET("/:orderNo", this.GetOrder)
+		order.PUT("/:orderNo/cancel", this.CancelOrder)
+		order.PUT("/:orderNo/finish", this.FinishOrder)
+	}
+	// 支付mock接口
+	payOrder := apiV1.Group("/paySuccess", middleware.AuthMiddleware())
+	{
+		payOrder.GET("/", this.PayOrder)
+	}
+	// 生成订单接口
+	placeOrder := apiV1.Group("/saveOrder", middleware.AuthMiddleware())
+	{
+		placeOrder.POST("/", this.PlaceOrder)
+
 	// 商品相关
 	goods := apiV1.Group("/goods", middleware.AuthMiddleware())
 	{
 		goods.GET("/detail/:goodsId", this.GetGoodsDetail)
+
 	}
 	return eg
 }
