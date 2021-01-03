@@ -12,6 +12,8 @@ type Service struct {
 
 
 
+
+
 var Provider = wire.NewSet(repository.Provider, NewService)
 
 func NewService(repo repository.Repository) (*Service, func(), error) {

@@ -19,3 +19,10 @@ func CreateCartItemToCartModel(uid int, req dto.CreateCartItemReq) model.Cart {
 func UpdateCartDtoToCartModel(req dto.UpdateCartItemReq)model.Cart  {
 	return model.Cart{CartItemId: req.CartItemId,GoodsCount: req.GoodsCount}
 }
+func FilterCartItemId(cartItems []model.PsuedoOrderItemModel) []int {
+	ids := make([]int,len(cartItems))
+	for i,item := range cartItems{
+		ids[i]	= item.CartItemId
+	}
+	return ids
+}

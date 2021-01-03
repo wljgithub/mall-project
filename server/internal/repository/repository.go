@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
+	"github.com/wljgithub/mall-project/internal/model"
 	"gorm.io/gorm"
 )
 
@@ -12,9 +13,14 @@ type Repository interface {
 	MallRepo
 	AddressRepo
 	CartRepo
+	OrderRepo
 	Close()
 }
 
+var tableToRegister = []interface{}{
+	&model.Order{},
+	&model.GoodsItem{},
+}
 var (
 	ErrNotFound = errors.New("record not found")
 )

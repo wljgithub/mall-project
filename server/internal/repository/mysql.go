@@ -36,6 +36,8 @@ func newMysql(config conf.MySQLConfig) (*gorm.DB, error) {
 	sql.SetMaxOpenConns(config.MaxOpenConn)
 	sql.SetConnMaxLifetime(time.Minute * time.Duration(config.ConnMaxLifeTime))
 
+	db.AutoMigrate(tableToRegister...)
+
 	return db, err
 
 }
