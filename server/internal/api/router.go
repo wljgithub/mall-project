@@ -15,6 +15,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 
 	apiV1.GET("/index-infos", this.MallIndex)
 	apiV1.GET("/categories", this.GetCategories)
+	apiV1.GET("/search", this.GoodsSearch)
 
 	// 用户相关接口
 	user := apiV1.Group("/user")
@@ -48,6 +49,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 		cart.PUT("/", this.UpdateCartItem)
 		cart.GET("/settle", this.BatchGetCartItem)
 	}
+
 	// 订单相关
 	order := apiV1.Group("order", middleware.AuthMiddleware())
 	{
@@ -65,6 +67,12 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 	placeOrder := apiV1.Group("/saveOrder", middleware.AuthMiddleware())
 	{
 		placeOrder.POST("/", this.PlaceOrder)
+
+	// 商品相关
+	goods := apiV1.Group("/goods", middleware.AuthMiddleware())
+	{
+		goods.GET("/detail/:goodsId", this.GetGoodsDetail)
+
 	}
 	return eg
 }

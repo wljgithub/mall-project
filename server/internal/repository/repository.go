@@ -14,6 +14,7 @@ type Repository interface {
 	AddressRepo
 	CartRepo
 	OrderRepo
+	GoodsRepo
 	Close()
 }
 

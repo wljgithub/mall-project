@@ -16,6 +16,7 @@ func CreateCartItemToCartModel(uid int, req dto.CreateCartItemReq) model.Cart {
 		UpdateTime: time.Now(),
 	}
 }
+
 func UpdateCartDtoToCartModel(req dto.UpdateCartItemReq)model.Cart  {
 	return model.Cart{CartItemId: req.CartItemId,GoodsCount: req.GoodsCount}
 }
@@ -26,3 +27,4 @@ func FilterCartItemId(cartItems []model.PsuedoOrderItemModel) []int {
 	}
 	return ids
 }
+
