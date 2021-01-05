@@ -6,9 +6,9 @@ import (
 )
 
 func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
-	eg.Use(middleware.Options())
-	eg.Use(middleware.Secure())
-	eg.Use(middleware.NoCache())
+	eg.Use(middleware.CORSMiddleware())
+	//eg.Use(middleware.Secure())
+	//eg.Use(middleware.NoCache())
 	eg.Use(mw...)
 
 	apiV1 := eg.Group("api/v1")
@@ -67,12 +67,11 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 	placeOrder := apiV1.Group("/saveOrder", middleware.AuthMiddleware())
 	{
 		placeOrder.POST("/", this.PlaceOrder)
-
+	}
 	// 商品相关
 	goods := apiV1.Group("/goods", middleware.AuthMiddleware())
 	{
 		goods.GET("/detail/:goodsId", this.GetGoodsDetail)
-
 	}
 	return eg
 }
