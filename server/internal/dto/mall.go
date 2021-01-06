@@ -58,4 +58,5 @@ type SearchGoodsItem struct {
 type GoodsSearchRsp struct {
 	List       []SearchGoodsItem `json:"list"`
 	TotalCount int            `json:"totalCount"`
+	TotalPage int `json:"totalPage"`
 }

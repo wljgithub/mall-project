@@ -19,6 +19,7 @@ type OrderRepo interface {
 	FinishOrder(ctx context.Context, uid int, orderNo string) error
 	PaySuccess(ctx context.Context, uid int, req dto.PaySuccessReq) error
 	PlaceOrder(ctx context.Context, uid int, req dto.PlaceOrderReq) (string, error)
+	CountOrderList(ctx context.Context, uid int, status int) (int,error)
 }
 
 func (this *Repo) GetOrder(uid int, orderNo string) (*model.Order, error) {
@@ -34,7 +35,7 @@ func (this *Repo) GetOrderList(ctx context.Context, uid int, status, offset, lim
 	order := []model.Order{}
 	sql := this.db.Where(&model.Order{UserId: uid})
 	if status != 0 {
-		sql = sql.Where(&model.Order{PayStatus: status})
+		sql = sql.Where(&model.Order{OrderStatus: status})
 	}
 	err := sql.Offset(offset).Limit(limit).Find(&order).Error
 	return order, xerrors.Wrapf(err, "")
@@ -117,4 +118,15 @@ func (this *Repo) PlaceOrder(ctx context.Context, uid int, req dto.PlaceOrderReq
 	}
 
 	return orderNo, nil
+}
+func (this *Repo)  CountOrderList(ctx context.Context, uid int, status int) (int,error){
+	var count int64
+	sql :=this.db.Model(&model.Order{})
+	if status != 0 {
+		sql = sql.Where(&model.Order{
+			OrderStatus: status,
+		})
+	}
+	err :=sql.Count(&count).Error
+	return int(count),xerrors.Wrapf(err,"")
 }

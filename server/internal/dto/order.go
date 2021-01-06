@@ -29,6 +29,7 @@ type GetOrderListReq struct {
 
 type GetOrderListRsp struct {
 	List []Order `json:"list"`
+	TotalPage int `json:"totalPage"`
 }
 
 // GET: /api/v1/order/{orderNo}

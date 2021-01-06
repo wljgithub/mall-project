@@ -95,7 +95,7 @@ func (this *Service) GoodsSearch(req dto.GoodsSearchReq) (*dto.GoodsSearchRsp, e
 		goods.List, err = this.Repo.SearchGoodsByName(context.Background(), req.Keyword, req.OrderBy, offset, limit)
 		goods.TotalCount, err = this.Repo.CountGoodsByName(context.Background(), req.Keyword)
 	}
-
+	goods.TotalPage = (goods.TotalCount / req.PageSize) + 1
 	if err != nil {
 		return nil, err
 	}

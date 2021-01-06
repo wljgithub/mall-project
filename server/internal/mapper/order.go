@@ -34,7 +34,7 @@ func OrderListToOrderIds(orderList []model.Order) []int {
 	}
 	return orderIds
 }
-func ConcatOrderAndGoodsItem(orderList []model.Order, goodsItem []model.GoodsItem) *dto.GetOrderListRsp {
+func ConcatOrderAndGoodsItem(orderList []model.Order, goodsItem []model.GoodsItem, totalPage int) *dto.GetOrderListRsp {
 	m := make(map[int][]dto.OrderGoodsItem)
 	for _, item := range goodsItem {
 		dtoGoodsItem := dto.OrderGoodsItem{
@@ -56,9 +56,9 @@ func ConcatOrderAndGoodsItem(orderList []model.Order, goodsItem []model.GoodsIte
 		dtoOrderList[i].OrderStatus = order.OrderStatus
 		dtoOrderList[i].OrderNo = order.OrderNo
 		dtoOrderList[i].CreateTime = order.CreateTime
-		dtoOrderList[i].OrderStatusString = strconv.Itoa(order.OrderStatus)
+		dtoOrderList[i].OrderStatusString = OrderStatusMapping(order.OrderStatus)
 	}
-	return &dto.GetOrderListRsp{List: dtoOrderList}
+	return &dto.GetOrderListRsp{List: dtoOrderList, TotalPage: totalPage}
 }
 func GenerateOrder(uid int, orderNo string, goodsItems []model.PsuedoOrderItemModel) model.Order {
 	var price int
@@ -88,4 +88,22 @@ func GenerateOrderGoods(orderId int, cartGoodsItems []model.PsuedoOrderItemModel
 		goods[i].GoodsCoverImg = cartItem.GoodsCoverImg
 	}
 	return goods
+}
+func OrderStatusMapping(status int) string {
+	var statusMapping string
+	switch status {
+	case 1:
+		statusMapping = "待付款"
+	case 2:
+		statusMapping = "待发货"
+	case 3:
+		statusMapping = "待收货"
+	case 4:
+		statusMapping = "待评价"
+	case 5:
+		statusMapping = "已取消"
+	default:
+		statusMapping = "未知状态"
+	}
+	return statusMapping
 }
