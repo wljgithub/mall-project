@@ -106,7 +106,6 @@
             this.result = res.data.CartList.map(item => item.cartItemId)
           }
         ).catch(err => {
-          console.log(err)
         })
         Toast.clear()
       },

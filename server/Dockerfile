@@ -16,8 +16,12 @@ FROM base as build
 RUN go build -o /out/main ./cmd/main.go
 
 # bin stage
-FROM scratch AS bin
+#FROM scratch AS bin
+FROM golang:alpine AS bin
 COPY --from=build /out/main /
 ADD conf/config.deploy.yml ./conf/config.local.yml
+ADD scripts/wait_for.sh ./wait_for.sh
 
-ENTRYPOINT ["/main"]
+EXPOSE 3000
+
+CMD ["sh","./wait_for.sh","mysql:3306","--","/main"]

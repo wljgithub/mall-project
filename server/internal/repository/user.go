@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"github.com/go-sql-driver/mysql"
 	xerrors "github.com/pkg/errors"
 	"github.com/wljgithub/mall-project/internal/model"
 	"github.com/wljgithub/mall-project/pkg/errno"
+	"gorm.io/gorm"
 	"strconv"
 	"time"
 )
@@ -29,6 +31,9 @@ func (this *Repo) GetByName(ctx context.Context, name string) (*model.User, erro
 	user := &model.User{}
 	err := this.db.Where(&model.User{LoginName: name}).First(user).Error
 	if err != nil {
+		if errors.Is(err,gorm.ErrRecordNotFound){
+			return nil,ErrNotFound
+		}
 		return nil, xerrors.Wrapf(err, "failed to get user by name")
 	}
 	return user, err

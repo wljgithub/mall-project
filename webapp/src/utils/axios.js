@@ -10,12 +10,26 @@ import axios from 'axios'
 import {Toast} from 'vant'
 import router from '../router'
 
-axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? '//localhost:3000/api/v1' : '//47.99.134.126:28019/api/v1'
+axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? '//localhost:3000/api/v1' : '/api/v1'
+// axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? '//localhost:3000/api/v1' : '//47.99.134.126:28019/api/v1'
 // axios.defaults.withCredentials = true
 // axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token') || ''
+// axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token') || ''
 // axios.defaults.headers.post['Content-Type'] = 'application/json'
 
+axios.interceptors.request.use(
+  function(config) {
+    // carried token if exist in local storage
+    let token = localStorage.getItem('token')
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 axios.interceptors.response.use(res => {
   if (typeof res.data !== 'object') {
     Toast.fail('服务端异常！')
@@ -30,7 +44,7 @@ axios.interceptors.response.use(res => {
 }, error => {
   if (error.response.status === 401) {
     router.push({path: '/login'})
-    return Promise.resolve(error.response)
+    return Promise.resolve(error.response.data)
   }
 })
 

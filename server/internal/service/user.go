@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
-	"github.com/pkg/errors"
+	"errors"
+	xerrors "github.com/pkg/errors"
 	"github.com/wljgithub/mall-project/internal/dto"
 	"github.com/wljgithub/mall-project/internal/mapper"
 	"github.com/wljgithub/mall-project/internal/model"
+	"github.com/wljgithub/mall-project/internal/repository"
 	"github.com/wljgithub/mall-project/pkg/conf"
 	"github.com/wljgithub/mall-project/pkg/errno"
 	"github.com/wljgithub/mall-project/pkg/token"
@@ -17,17 +19,20 @@ func (this *Service) Login(req dto.LoginReq) (*dto.LoginToken, error) {
 	// 获取用户信息
 	user, err := this.Repo.GetByName(context.Background(), req.LoginName)
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			return nil, errno.ErrIncorrectPassword
+		}
 		return nil, err
 	}
 	// 检查密码
 	if !user.CheckPassword(req.PasswordMd5) {
-		return nil, errors.Wrapf(errno.ErrIncorrectPassword, "%v password incorrect", user.LoginName)
+		return nil, errno.ErrIncorrectPassword
 	}
 
 	// 签发 jwt token
 	tokenStr, err := token.Sign(token.Context{UserID: uint64(user.UserId), Username: user.LoginName}, conf.Conf.App.JwtSecret)
 	if err != nil {
-		return nil, errors.Wrapf(err, "jwt token sign err")
+		return nil, xerrors.Wrapf(err, "jwt token sign err")
 	}
 
 	// 将jwt token放入redis

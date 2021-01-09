@@ -101,23 +101,26 @@
         this.type = v
       },
       async onSubmit(values) {
-        // this.dealTriVer()
-        // if (!this.verify) {
-        //   Toast.fail('验证码未填或填写错误!')
-        //   return
-        // }
+         this.dealTriVer()
+         if (!this.verify) {
+           Toast.fail('验证码未填或填写错误!')
+           return
+         }
         if (this.type == 'login') {
           login({
             "loginName": values.username,
             "passwordMd5": this.$md5(values.password)
           }).then(
             res => {
+            if (res.data&&res.data.Token){
               localStorage.setItem('token',res.data.Token)
               this.$router.push("/")
-              // window.location.href = '/'
+            }else{
+              Toast.fail(res.message)
+            }
             }
           ).catch(err => {
-            console.log(err)
+          Toast.fail(err.message)
           })
         } else {
           const {data} = await register({

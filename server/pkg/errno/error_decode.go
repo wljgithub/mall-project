@@ -10,6 +10,7 @@ func (this *ErrorNo) Error() string {
 	return this.Message
 }
 
+
 func DecodeErr(err error) (int, int, string) {
 	if err == nil {
 		return OK.HTTPStatusCode, OK.ServiceCode, OK.Message

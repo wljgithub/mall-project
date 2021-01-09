@@ -21,7 +21,7 @@ func (this *HttpServer) Load(eg *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine 
 	user := apiV1.Group("/user")
 	//apiV1.POST("/user/login",this.Login)
 	{
-		user.POST("/register", this.Register)
+		//user.POST("/register", this.Register)
 		user.POST("/login", this.Login)
 	}
 	userWithPermission := apiV1.Group("/user", middleware.AuthMiddleware())
