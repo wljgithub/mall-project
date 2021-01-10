@@ -1,0 +1,61 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    depends_on:
+      - mysql
+      - redis
+    ports:
+    - "3000:3000"
+    volumes:
+    - ./serverLog:/go/serverLog
+  webapp:
+    build: ./webapp
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ./upload/:/var/www/images
+    - ./nginx:/etc/nginx/conf.d
+    - ./data/certbot/conf:/etc/letsencrypt
+    - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - server
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - webapp
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  redis:
+    image: "redis:alpine"
+    ports:
+    - "6379:6379"
+    restart: on-failure
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+    - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./server/test/:/docker-entrypoint-initdb.d/
+  adminer:
+    image: adminer
+    restart: on-failure
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  mysql-data: {}
+  server-log: {}
