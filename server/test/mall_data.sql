@@ -1,4 +1,5 @@
-
+SET NAMES utf8mb4;
+USE mall;
 LOCK TABLES `tb_newbee_mall_admin_user` WRITE;
 /*!40000 ALTER TABLE `tb_newbee_mall_admin_user` DISABLE KEYS */;
 
