@@ -3,6 +3,23 @@ Nginx_Config_Folder=webapp/nginx
 
 all: help
 
+## serve:
+.PHONY: serve
+serve: build-local run
+
+## re-serve:
+.PHONY: re-serve
+re-serve: stop serve
+
+.PHONY: build-local
+build-local:
+
+	@rm -rf webapp/nginx
+	@mkdir -p webapp/nginx
+	@cp nginx/nginx.local.conf webapp/nginx/nginx.conf
+	@docker-compose build
+	@echo building docker image...
+
 ## start: 打包docker镜像并启动项目
 .PHONY: start
 start: build run
@@ -16,7 +33,6 @@ stop:
 .PHONY: restart
 restart: stop start
 
-## build: 打包前端，后端docker镜像
 .PHONY: build
 build:
 	@rm -rf webapp/nginx
@@ -25,7 +41,6 @@ build:
 	@docker-compose build
 	@echo building docker image...
 
-## run: 启动项目
 .PHONY: run
 run:
 	docker-compose --env-file ${ENV_FILE} up -d
@@ -36,7 +51,6 @@ run:
 log:
 	docker-compose logs -f
 
-## run-server-only: 只运行后端应用
 .PHONY: run-server-only
 run-server-only:
 	@echo run server..

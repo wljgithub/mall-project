@@ -1,0 +1,13 @@
+--2021-01-11 07:01:55--  https://github.com/newbee-ltd/newbee-mall-vue3-app/blob/main/static-files/%E5%95%86%E5%93%81%E6%90%9C%E7%B4%A2.png
+正在解析主机 localhost (localhost)... ::1, 127.0.0.1
+正在连接 localhost (localhost)|::1|:8001... 失败：Connection refused。
+正在连接 localhost (localhost)|127.0.0.1|:8001... 已连接。
+已发出 Proxy 请求，正在等待回应... 200 OK
+长度：未指定 [text/html]
+正在保存至: “商品搜索.png”
+
+     0K .......... .......... .......... .......... ..........  123K
+    50K .......... .......... .......... ......                 179K=0.6s
+
+2021-01-11 07:01:57 (141 KB/s) - “商品搜索.png” 已保存 [88171]
+
